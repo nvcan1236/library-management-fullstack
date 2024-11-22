@@ -1,13 +1,11 @@
 import React from "react";
 import { DataListItem, DataListRoot } from "../ui/data-list";
-import useSWR from "swr";
 import { Book } from "@/lib/types";
-import { fetcher } from "@/lib/fetcher";
 import { Spinner, Text } from "@chakra-ui/react";
+import { useGetObjectById } from "@/hooks/useGetObjectById";
 
 const BookDetail = ({ id }: { id: string }) => {
-  const beUrl = process.env.BACKEND_URL || "http://localhost:8000/api";
-  const { data, isLoading } = useSWR<Book>(`${beUrl}/book/${id}`, fetcher);
+  const { data, isLoading } = useGetObjectById<Book>("book", id);
 
   if (isLoading) return <Spinner size="lg" />;
   if(!data) return <Text>Not Found</Text>

@@ -1,13 +1,11 @@
-import { fetcher } from "@/lib/fetcher";
 import { Member } from "@/lib/types";
 import { Spinner, Text } from "@chakra-ui/react";
 import React from "react";
-import useSWR from "swr";
 import { DataListItem, DataListRoot } from "../ui/data-list";
+import { useGetObjectById } from "@/hooks/useGetObjectById";
 
 const MemberDetail = ({id}:{id:string}) => {
-  const beUrl = process.env.BACKEND_URL || "http://localhost:8000/api";
-  const { data, isLoading } = useSWR<Member>(`${beUrl}/member/${id}`, fetcher);
+  const { data, isLoading } = useGetObjectById<Member>("member", id);
 
   if (isLoading) return <Spinner size="lg" />;
   if(!data) return <Text>Not Found</Text>

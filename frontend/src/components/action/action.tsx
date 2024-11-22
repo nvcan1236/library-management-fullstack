@@ -1,4 +1,5 @@
-import React, { ReactNode } from "react";
+"use client";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { RadioCardItem, RadioCardRoot } from "../ui/radio-card";
 import {
   Container,
@@ -7,11 +8,14 @@ import {
   IconButton,
   Input,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import { LuBookDown, LuBookUp, LuCheck } from "react-icons/lu";
 import { Field } from "../ui/field";
 import { DataListItem, DataListRoot } from "../ui/data-list";
 import { Button } from "../ui/button";
+import { useGetObjectById } from "@/hooks/useGetObjectById";
+import { Book, Member } from "@/lib/types";
 
 const Action = () => {
   const items: { title: string; value: string; icon: ReactNode }[] = [
@@ -26,6 +30,23 @@ const Action = () => {
       icon: <LuBookDown />,
     },
   ];
+
+  const [bookId, setBookId] = useState<string>();
+  const [memberId, setMemberId] = useState<string>();
+  const bookIdRef = useRef<HTMLInputElement>(null);
+  const memberIdRef = useRef<HTMLInputElement>(null);
+
+  const handleCheckMember = () => {
+    setMemberId(memberIdRef.current?.value);
+  };
+
+  const handleCheckBook = () => {
+    setBookId(bookIdRef.current?.value);
+  };
+
+  const { data: bookData } = useGetObjectById<Book>("book", bookId);
+  const { data: memberData } = useGetObjectById<Member>("member", memberId);
+
   return (
     <Stack minH={"100vh"}>
       <RadioCardRoot
@@ -48,46 +69,53 @@ const Action = () => {
           ))}
         </HStack>
       </RadioCardRoot>
+
       <HStack gap={12} alignItems={"start"}>
         <Stack flex={1}>
           <HStack alignItems={"end"}>
             <Field label="Member's ID" w={320}>
-              <Input placeholder="Enter member's ID"></Input>
+              <Input placeholder="Enter member's ID" ref={memberIdRef}></Input>
             </Field>
-            <IconButton variant={"surface"}>
+            <IconButton variant={"surface"} onClick={() => handleCheckMember()}>
               <LuCheck />
             </IconButton>
           </HStack>
-          <DataListRoot orientation="horizontal" mt={4}>
-            {stats.map((item) => (
-              <DataListItem
-                key={item.label}
-                label={item.label}
-                value={item.value}
-              />
-            ))}
-          </DataListRoot>
+          {memberData && (
+            <DataListRoot orientation="horizontal" mt={4}>
+              {Object.entries(memberData).map(([label, value]) => (
+                <DataListItem key={label} label={label} value={value} />
+              ))}
+            </DataListRoot>
+          )}
+          {!memberData && (
+            <Text fontSize={"sm"} mt={4}>
+              Không có dữ liệu
+            </Text>
+          )}
         </Stack>
-
 
         <Stack flex={1}>
           <HStack alignItems={"end"}>
             <Field label="Book's ID" w={320}>
-              <Input placeholder="Enter book's ID"></Input>
+              <Input placeholder="Enter book's ID" ref={bookIdRef}></Input>
             </Field>
-            <IconButton variant={"surface"}>
+            <IconButton variant={"surface"} onClick={() => handleCheckBook()}>
               <LuCheck />
             </IconButton>
           </HStack>
-          <DataListRoot orientation="horizontal" mt={4}>
-            {stats.map((item) => (
-              <DataListItem
-                key={item.label}
-                label={item.label}
-                value={item.value}
-              />
-            ))}
-          </DataListRoot>
+          {bookData && (
+            <DataListRoot orientation="horizontal" mt={4} >
+              {Object.entries(bookData).map(([label, value]) => (
+                <DataListItem key={label} label={label} value={value} />
+              ))}
+            </DataListRoot>
+            
+          )}
+          {!bookData && (
+            <Text fontSize={"sm"} mt={4}>
+              Không có dữ liệu
+            </Text>
+          )}
         </Stack>
       </HStack>
       <Container

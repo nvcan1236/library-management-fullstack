@@ -15,7 +15,7 @@ import { useGetObject } from "@/hooks/useGetObject";
 
 const Members = () => {
   const { id, handleRowClick, openDialog, closeDialog } = useClickRow();
-  const { data, mutate } = useGetObject<Member>("librarian");
+  const { data, mutate } = useGetObject<Member>("member");
 
   const { fetch } = useDeleteObject("member", id);
   const deleteMember = async () => {

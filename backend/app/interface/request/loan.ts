@@ -1,6 +1,7 @@
 import { ObjectId } from "mongoose";
 import { IBook } from "../book.interface";
+import { ILoan } from "../loan.interface";
 
-export interface BookCreate extends Omit<IBook, "_id"> {}
+export interface LoanCreate extends Pick<ILoan, "member" | "book"> {}
 
-export interface BookUpdate extends Omit<IBook, "_id"> {}
+// export interface BookUpdate extends Omit<IBook, "_id"> {}

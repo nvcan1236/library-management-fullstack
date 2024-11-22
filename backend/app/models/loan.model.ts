@@ -4,7 +4,7 @@ import { ILoan } from "../interface/loan.interface";
 const loanShema = new Schema<ILoan>(
   {
     member: {
-      type: "string",
+      type: Schema.Types.ObjectId,
       required: true,
     },
     book: {
@@ -20,11 +20,11 @@ const loanShema = new Schema<ILoan>(
       required: true,
     },
     returnDate: {
-      required: true,
+      type: "Date",
     },
     status: {
       type: "string",
-      required: true,
+      default: "borrowing"
     },
   },
   { timestamps: true }

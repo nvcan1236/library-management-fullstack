@@ -15,6 +15,9 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(express.json());
 app.use("/api", router);
+
+app.use(express.static("public")) 
+
 app.use(notFound);
 app.use(errorHandler);
 
@@ -24,9 +27,10 @@ app.get("/", (req: Request, res: Response) => {
 
 connectDatabase();
 
-const port = process.env.PORT || 8000;
-app.listen(port, () => {
-  console.log(`Server is Fire at http://localhost:${port}`);
-});
+export default app
 
-app.use(express.static("public")) 
+// const port = process.env.PORT || 8000;
+// app.listen(port, () => {
+//   console.log(`Server is Fire at http://localhost:${port}`);
+// });
+

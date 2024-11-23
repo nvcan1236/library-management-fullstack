@@ -1,3 +1,4 @@
+"use client"
 import LoginForm from "@/components/login/login-form";
 import { Box, Heading, HStack, Stack } from "@chakra-ui/react";
 import React from "react";

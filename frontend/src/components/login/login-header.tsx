@@ -1,6 +1,6 @@
 "use client";
 import { HStack, IconButton, Text } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React from "react";
 import { Avatar } from "../ui/avatar";
 import { LuLogOut } from "react-icons/lu";
 import { redirect } from "next/navigation";

@@ -4,7 +4,6 @@ import BooksContent from "@/components/books/books";
 import Librarians from "@/components/librarian/librarians";
 import Members from "@/components/member/members";
 import {
-  Button,
   Container,
   Heading,
   HStack,
@@ -15,7 +14,6 @@ import { ReactNode } from "react";
 import {
   LuBook,
   LuLibrary,
-  LuPlus,
   LuUser,
   LuUsers,
   LuUsers2,

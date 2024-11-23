@@ -3,8 +3,6 @@ import { getLocalStorage, setLocalStorage } from "@/lib/utils";
 import {
   ComponentProps,
   createContext,
-  Dispatch,
-  SetStateAction,
   useContext,
   useState,
 } from "react";
@@ -26,12 +24,12 @@ function LoginProvider(props: ComponentProps<"div">) {
 
   const login = () => {
     setLogedIn(true);
-    setLocalStorage("LMS_LOGIN", true);
+    setLocalStorage("LMS_LOGIN", "true");
   };
 
   const logout = () => {
     setLogedIn(false);
-    setLocalStorage("LMS_LOGIN", false);
+    setLocalStorage("LMS_LOGIN", "false");
   };
 
   return (

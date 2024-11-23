@@ -16,7 +16,6 @@ import { LuPlus } from "react-icons/lu";
 import { Object as ObjectType } from "@/lib/types";
 import { useCreateObject } from "@/hooks/useCreateObject";
 import { Field } from "../ui/field";
-import { useSWRConfig } from "swr";
 import { useGetObject } from "@/hooks/useGetObject";
 
 const labelsFor: {
@@ -53,7 +52,7 @@ const CreateDialog = ({ type }: { type: ObjectType }) => {
   );
   const [newData, setNewData] = useState(initData);
   const { fetch } = useCreateObject(type, newData);
-  const { mutate, data } = useGetObject(type);
+  const { mutate } = useGetObject(type);
 
   const createObject = async () => {
     const newData = await fetch();

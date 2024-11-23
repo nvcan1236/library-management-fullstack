@@ -1,7 +1,7 @@
 import { Object } from "@/lib/types";
 
 const useCreateObject = (type: Object, newData:object) => {
-  const beUrl = process.env.BACKEND_URL || "http://localhost:8000/api";
+  const beUrl = process.env.NEXT_PUBLIC_BACKEND_URL ;
 
   const fetchPost = async () => {
     const res = await(fetch(`${beUrl}/${type}`, {

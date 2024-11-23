@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import React, { ReactNode, useRef, useState } from "react";
 import { RadioCardItem, RadioCardRoot } from "../ui/radio-card";
 import {
   Container,
@@ -109,7 +109,7 @@ const Action = () => {
                 <DataListItem key={label} label={label} value={value} />
               ))}
             </DataListRoot>
-            
+
           )}
           {!bookData && (
             <Text fontSize={"sm"} mt={4}>
@@ -131,11 +131,5 @@ const Action = () => {
     </Stack>
   );
 };
-
-const stats = [
-  { label: "New Users", value: "234", diff: -12, helpText: "Till date" },
-  { label: "Sales", value: "£12,340", diff: 12, helpText: "Last 30 days" },
-  { label: "Revenue", value: "3,450", diff: 4.5, helpText: "Last 30 days" },
-];
 
 export default Action;

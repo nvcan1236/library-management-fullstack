@@ -4,8 +4,6 @@ import React from "react";
 import Dialog from "../common/dialog";
 import { useClickRow } from "@/hooks/useClickRow";
 import { Librarian } from "@/lib/types";
-import { fetcher } from "@/lib/fetcher";
-import useSWR from "swr";
 import { formatDate } from "@/lib/utils";
 import LibrarianDetail from "./librarian-detail";
 import AlertDialog from "../common/alert-dialog";

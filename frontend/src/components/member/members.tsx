@@ -3,8 +3,6 @@ import { useClickRow } from "@/hooks/useClickRow";
 import { HStack, Table } from "@chakra-ui/react";
 import React from "react";
 import Dialog from "../common/dialog";
-import { fetcher } from "@/lib/fetcher";
-import useSWR from "swr";
 import { Member } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 import MemberDetail from "./member-detail";

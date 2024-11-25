@@ -3,10 +3,12 @@
 Library Management System: a project in training plan at Boolfly using NextJS and ExpressJS
 
 ### Demo deploy
+
 - Frontend: [https://library-management-ui-sigma.vercel.app/](https://library-management-ui-sigma.vercel.app/)
 - Backend: [https://library-management-be-two.vercel.app/](https://library-management-be-two.vercel.app/)
 
 ### Techstack
+
 - Backend: NodeJS, ExpressJS, MongoDB
 - Frontend: NextJS, ChakraUI
 
@@ -24,7 +26,8 @@ Library Management System: a project in training plan at Boolfly using NextJS an
 cd frontend
 npm run dev
 ```
-and it will run in port 3000 
+
+and it will run in port 3000
 
 3. Backend
 
@@ -32,6 +35,7 @@ and it will run in port 3000
 cd backend
 npm run dev
 ```
+
 and it will wun in post 8000 by default
 
 ### Feature

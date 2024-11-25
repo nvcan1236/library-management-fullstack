@@ -1,4 +1,4 @@
-import { addLoan } from "./add.loan.controller";
+import { addLoan, returnLoan } from "./add.loan.controller";
+import { getLoanInforByMember } from "./get.loan.controller";
 
-
-export { addLoan };
+export { addLoan, getLoanInforByMember, returnLoan };

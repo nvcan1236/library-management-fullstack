@@ -14,6 +14,12 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(express.json());
+app.get("/", (req: Request, res: Response) => {
+  res.send("Welcome to Library Management System");
+});
+app.get("/api", (req: Request, res: Response) => {
+  res.send("Welcome to Library Management System");
+});
 app.use("/api", router);
 
 app.use(express.static("public")) 
@@ -21,9 +27,7 @@ app.use(express.static("public"))
 app.use(notFound);
 app.use(errorHandler);
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to Express & TypeScript Server");
-});
+
 
 connectDatabase();
 

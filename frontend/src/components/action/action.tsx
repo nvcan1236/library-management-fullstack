@@ -7,6 +7,7 @@ import {
   Icon,
   IconButton,
   Input,
+  Separator,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -16,6 +17,8 @@ import { DataListItem, DataListRoot } from "../ui/data-list";
 import { Button } from "../ui/button";
 import { useGetObjectById } from "@/hooks/useGetObjectById";
 import { Book, Member } from "@/lib/types";
+import { useGetLoanStat } from "@/hooks/useGetLoanStat";
+import { toaster } from "../ui/toaster";
 
 const Action = () => {
   const items: { title: string; value: string; icon: ReactNode }[] = [
@@ -31,6 +34,7 @@ const Action = () => {
     },
   ];
 
+  const [action, setAction] = useState(items[0].value);
   const [bookId, setBookId] = useState<string>();
   const [memberId, setMemberId] = useState<string>();
   const bookIdRef = useRef<HTMLInputElement>(null);
@@ -44,18 +48,59 @@ const Action = () => {
     setBookId(bookIdRef.current?.value);
   };
 
-  const { data: bookData } = useGetObjectById<Book>("book", bookId);
+  const { data: bookData, mutate: bookMutate } = useGetObjectById<Book>(
+    "book",
+    bookId
+  );
   const { data: memberData } = useGetObjectById<Member>("member", memberId);
+  const { data: loanStatData, mutate } = useGetLoanStat(memberId);
+
+  const beUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const handleSaveLoan = () => {
+    if (!memberId || !bookId) {
+      toaster.create({
+        title: `Enter member ID and book ID in advance.`,
+        type: "error",
+      });
+    }
+
+    fetch(`${beUrl}/loan${action === "return" ? "/return" : ""}`, {
+      method: "POST",
+      body: JSON.stringify({
+        member: memberId,
+        book: bookId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok)
+          toaster.create({
+            title: `Save Successfully`,
+            type: "success",
+          });
+        mutate();
+        bookMutate();
+        return res.json();
+      })
+      .catch((err) =>
+        toaster.create({
+          title: `Error:  ${err}`,
+          type: "error",
+        })
+      );
+  };
 
   return (
     <Stack minH={"100vh"}>
       <RadioCardRoot
-        defaultValue={items[0].value}
         w={400}
         ml={"auto"}
         size={"sm"}
         orientation={"horizontal"}
         justify={"center"}
+        value={action}
       >
         <HStack align="stretch">
           {items.map((item) => (
@@ -65,6 +110,7 @@ const Action = () => {
               key={item.value}
               value={item.value}
               icon={<Icon fontSize={"xl"}>{item.icon}</Icon>}
+              onClick={() => setAction(item.value)}
             />
           ))}
         </HStack>
@@ -81,15 +127,34 @@ const Action = () => {
             </IconButton>
           </HStack>
           {memberData && (
-            <DataListRoot orientation="horizontal" mt={4}>
-              {Object.entries(memberData).map(([label, value]) => (
-                <DataListItem key={label} label={label} value={value} />
-              ))}
-            </DataListRoot>
+            <>
+              <DataListRoot orientation="horizontal" mt={4}>
+                {Object.entries(memberData).map(([label, value]) => (
+                  <DataListItem key={label} label={label} value={value} />
+                ))}
+              </DataListRoot>
+              <Separator mt={4}></Separator>
+              <Text fontWeight={"medium"} mt={2}>
+                Loan Infor
+              </Text>
+              {loanStatData?.length ? (
+                <DataListRoot orientation="horizontal">
+                  {loanStatData.map((item) => (
+                    <DataListItem
+                      key={item.status}
+                      label={item.status}
+                      value={item.count}
+                    />
+                  ))}
+                </DataListRoot>
+              ) : (
+                <div>No data</div>
+              )}
+            </>
           )}
           {!memberData && (
             <Text fontSize={"sm"} mt={4}>
-              Không có dữ liệu
+              No data
             </Text>
           )}
         </Stack>
@@ -104,16 +169,15 @@ const Action = () => {
             </IconButton>
           </HStack>
           {bookData && (
-            <DataListRoot orientation="horizontal" mt={4} >
+            <DataListRoot orientation="horizontal" mt={4}>
               {Object.entries(bookData).map(([label, value]) => (
                 <DataListItem key={label} label={label} value={value} />
               ))}
             </DataListRoot>
-
           )}
           {!bookData && (
             <Text fontSize={"sm"} mt={4}>
-              Không có dữ liệu
+              No data
             </Text>
           )}
         </Stack>
@@ -126,7 +190,9 @@ const Action = () => {
         right={0}
         textAlign={"right"}
       >
-        <Button px={12}>Save</Button>
+        <Button px={12} onClick={handleSaveLoan}>
+          Save
+        </Button>
       </Container>
     </Stack>
   );
